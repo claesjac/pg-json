@@ -1,0 +1,1 @@
+SELECT json_get_value('{"foo":"bar"}', '/foo') = 'bar';

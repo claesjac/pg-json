@@ -1,0 +1,7 @@
+-- Adjust this setting to control where the objects get created.
+SET search_path = public;
+
+CREATE OR REPLACE FUNCTION json_get_value(json text, path text)
+RETURNS text
+AS 'MODULE_PATHNAME', 'json_get_value'
+IMMUTABLE STRICT LANGUAGE C;
