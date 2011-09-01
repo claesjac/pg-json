@@ -2,8 +2,9 @@
  *
  * JSON functions using the Jansson JSON library
  *
- * Copyright (c) 2011, Claes Jakobsson
+ * Copyright (c) 2011, Claes Jakobsson, Glue Finance AB
  *
+ * This software is licensed under the MIT license. See LICENSE
  *
  *-------------------------------------------------------------------------
  */
@@ -14,7 +15,6 @@
 #include <jansson.h>
 
 PG_MODULE_MAGIC;
-
 
 Datum		json_get_value(PG_FUNCTION_ARGS);
 

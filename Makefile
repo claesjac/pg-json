@@ -1,5 +1,3 @@
-# $PostgreSQL: pgsql/contrib/uuid-ossp/Makefile,v 1.4 2007/11/13 00:13:19 tgl Exp $
-
 MODULE_big = pg-json
 OBJS = pg-json.o
 DATA_built = pg-json.sql
