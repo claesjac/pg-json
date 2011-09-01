@@ -10,4 +10,3 @@ SHLIB_LINK += -ljansson
 PG_CONFIG = pg_config
 PGXS := $(shell $(PG_CONFIG) --pgxs)
 include $(PGXS)
-ma
