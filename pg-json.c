@@ -23,9 +23,7 @@ Datum json_get_value(PG_FUNCTION_ARGS);
  *****************************************************************************/
 PG_FUNCTION_INFO_V1(json_in);
 
-Datum
-json_in(PG_FUNCTION_ARGS)
-{
+Datum json_in(PG_FUNCTION_ARGS) {
     char            *str = PG_GETARG_CSTRING(0);
     int4            len = strlen(str);
     Json            *result;
@@ -48,9 +46,7 @@ json_in(PG_FUNCTION_ARGS)
 
 PG_FUNCTION_INFO_V1(json_out);
 
-Datum
-json_out(PG_FUNCTION_ARGS)
-{
+Datum json_out(PG_FUNCTION_ARGS) {
     Json    *json = (Json *) PG_GETARG_POINTER(0);
     size_t  len = VARSIZE_ANY_EXHDR(json);
     char    *result;
@@ -137,8 +133,7 @@ static json_t *get_value_at_path(json_t *obj, const char *path) {
     return NULL;
 }
 
-Datum
-json_t_to_text(json_t *rv) {
+static Datum json_t_to_text(json_t *rv) {
     char buffer[32];
     
     switch (json_typeof(rv)) {
@@ -174,8 +169,7 @@ json_t_to_text(json_t *rv) {
     }
 }
 
-Datum
-json_get_value(PG_FUNCTION_ARGS)
+Datum json_get_value(PG_FUNCTION_ARGS)
 {
     Json*   json = (Json *) PG_GETARG_POINTER(0);
     size_t  len = VARSIZE_ANY_EXHDR(json);
