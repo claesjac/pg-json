@@ -1,7 +1,25 @@
 -- Adjust this setting to control where the objects get created.
+DROP TYPE json CASCADE;
+
 SET search_path = public;
 
-CREATE OR REPLACE FUNCTION json_get_value(json text, path text)
-RETURNS text
-AS 'MODULE_PATHNAME', 'json_get_value'
-IMMUTABLE STRICT LANGUAGE C;
+CREATE OR REPLACE FUNCTION json_in(cstring)
+    RETURNS json
+    AS '$libdir/pg-json'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION json_out(json)
+    RETURNS cstring
+    AS '$libdir/pg-json'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE TYPE json (
+    INPUT = json_in,
+    OUTPUT = json_out
+);
+    
+--CREATE OR REPLACE FUNCTION json_get_value(json text, path text)
+--RETURNS text
+--AS '$libdir/pg-json'
+--    LANGUAGE C IMMUTABLE STRICT;
+

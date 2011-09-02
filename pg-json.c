@@ -9,14 +9,57 @@
  *-------------------------------------------------------------------------
  */
 
-#include "postgres.h"
-#include "fmgr.h"
-#include "utils/builtins.h"
-#include <jansson.h>
+#include "pg-json.h"
 
 PG_MODULE_MAGIC;
 
+Datum		json_in(PG_FUNCTION_ARGS);
+Datum		json_out(PG_FUNCTION_ARGS);
+
 Datum		json_get_value(PG_FUNCTION_ARGS);
+
+/*****************************************************************************
+ * Input/Output functions
+ *****************************************************************************/
+PG_FUNCTION_INFO_V1(json_in);
+
+Datum
+json_in(PG_FUNCTION_ARGS)
+{
+	char            *str = PG_GETARG_CSTRING(0);
+    int4            len = strlen(str);
+	Json            *result;
+    json_t          *root;
+    json_error_t    error;
+    
+    /* Parse to see if this is valid JSON */
+    root = json_loads(str, 0, &error);
+    if (!root) {
+        elog(ERROR, "Failed to parse json: %s", error.text);
+    }
+    
+    result = (Json *) palloc(len + VARHDRSZ);
+	SET_VARSIZE(result, len + VARHDRSZ);
+	memcpy(VARDATA(result), str, len);
+    
+	PG_RETURN_POINTER(result);
+}
+
+PG_FUNCTION_INFO_V1(json_out);
+
+Datum
+json_out(PG_FUNCTION_ARGS)
+{
+	Json    *json = (Json *) PG_GETARG_POINTER(0);
+    size_t  len = VARSIZE_ANY_EXHDR(json);
+	char	*result;
+
+    result = (char *) palloc(len + 1);
+    memcpy(result, VARDATA_ANY(json), len);
+    result[len] = '\0';
+    
+	PG_RETURN_CSTRING(result);
+}
 
 PG_FUNCTION_INFO_V1(json_get_value);
 
@@ -133,12 +176,14 @@ json_t_to_text(json_t *rv) {
 Datum
 json_get_value(PG_FUNCTION_ARGS)
 {
-    const char *json = text_to_cstring(PG_GETARG_TEXT_P(0));
-    json_t *root;
-    json_t *rv;
+    Json*   json = (Json *) PG_GETARG_POINTER(0);
+    size_t  len = VARSIZE_ANY_EXHDR(json);
+    json_t*     root;
+    json_t*     rv;
     json_error_t error;
-        
-    root = json_loads(json, 0, &error);
+    
+    
+    root = json_loadb(VARDATA(json), len, 0, &error);
     if (!root) {
         elog(ERROR, "Failed to parse json: %s", error.text);
     }
