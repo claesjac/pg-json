@@ -5,3 +5,5 @@ SELECT json_get_value('{"foo": { "quax": "zorg" } }','foo.quax') = 'zorg';
 SELECT json_get_value('{"foo": [{ "quax": "zorg" }] }','foo[0].quax') = 'zorg';
 
 SELECT '{"foo":"bar"}'::json;
+
+SELECT '{"foo":"bar"}'::json ~ 'foo';
