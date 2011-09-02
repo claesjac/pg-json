@@ -37,6 +37,7 @@ json_in(PG_FUNCTION_ARGS)
     if (!root) {
         elog(ERROR, "Failed to parse json: %s", error.text);
     }
+    json_decref(root);
     
     result = (Json *) palloc(len + VARHDRSZ);
 	SET_VARSIZE(result, len + VARHDRSZ);
@@ -181,7 +182,7 @@ json_get_value(PG_FUNCTION_ARGS)
     json_t*     root;
     json_t*     rv;
     json_error_t error;
-    
+    text        *t;
     
     root = json_loadb(VARDATA(json), len, 0, &error);
     if (!root) {
@@ -195,5 +196,7 @@ json_get_value(PG_FUNCTION_ARGS)
         PG_RETURN_NULL();
     }
     
-    return json_t_to_text(rv);
+    t = json_t_to_text(rv);
+    json_decref(rv);
+    return t;
 }
