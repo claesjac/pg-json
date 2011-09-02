@@ -13,10 +13,10 @@
 
 PG_MODULE_MAGIC;
 
-Datum		json_in(PG_FUNCTION_ARGS);
-Datum		json_out(PG_FUNCTION_ARGS);
+Datum json_in(PG_FUNCTION_ARGS);
+Datum json_out(PG_FUNCTION_ARGS);
 
-Datum		json_get_value(PG_FUNCTION_ARGS);
+Datum json_get_value(PG_FUNCTION_ARGS);
 
 /*****************************************************************************
  * Input/Output functions
@@ -26,9 +26,9 @@ PG_FUNCTION_INFO_V1(json_in);
 Datum
 json_in(PG_FUNCTION_ARGS)
 {
-	char            *str = PG_GETARG_CSTRING(0);
+    char            *str = PG_GETARG_CSTRING(0);
     int4            len = strlen(str);
-	Json            *result;
+    Json            *result;
     json_t          *root;
     json_error_t    error;
     
@@ -40,10 +40,10 @@ json_in(PG_FUNCTION_ARGS)
     json_decref(root);
     
     result = (Json *) palloc(len + VARHDRSZ);
-	SET_VARSIZE(result, len + VARHDRSZ);
-	memcpy(VARDATA(result), str, len);
+    SET_VARSIZE(result, len + VARHDRSZ);
+    memcpy(VARDATA(result), str, len);
     
-	PG_RETURN_POINTER(result);
+    PG_RETURN_POINTER(result);
 }
 
 PG_FUNCTION_INFO_V1(json_out);
@@ -51,15 +51,15 @@ PG_FUNCTION_INFO_V1(json_out);
 Datum
 json_out(PG_FUNCTION_ARGS)
 {
-	Json    *json = (Json *) PG_GETARG_POINTER(0);
+    Json    *json = (Json *) PG_GETARG_POINTER(0);
     size_t  len = VARSIZE_ANY_EXHDR(json);
-	char	*result;
+    char    *result;
 
     result = (char *) palloc(len + 1);
     memcpy(result, VARDATA_ANY(json), len);
     result[len] = '\0';
     
-	PG_RETURN_CSTRING(result);
+    PG_RETURN_CSTRING(result);
 }
 
 PG_FUNCTION_INFO_V1(json_get_value);
