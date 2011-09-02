@@ -20,4 +20,8 @@ CREATE TYPE json (
     INPUT = json_in,
     OUTPUT = json_out
 );
-    
+
+CREATE OPERATOR ~ (
+    PROCEDURE = json_get_value,
+    LEFTARG = json, RIGHTARG = text
+);
