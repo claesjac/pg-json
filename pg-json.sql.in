@@ -16,6 +16,16 @@ CREATE OR REPLACE FUNCTION json_get_value(data json, path text)
     AS '$libdir/pg-json'
     LANGUAGE C IMMUTABLE STRICT;
 
+CREATE OR REPLACE FUNCTION json_equals(this json, that json)
+    RETURNS boolean
+    AS '$libdir/pg-json'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION json_not_equals(this json, that json)
+        RETURNS boolean
+        AS '$libdir/pg-json'
+        LANGUAGE C IMMUTABLE STRICT;
+    
 CREATE TYPE json (
     INPUT = json_in,
     OUTPUT = json_out
@@ -24,4 +34,18 @@ CREATE TYPE json (
 CREATE OPERATOR ~ (
     PROCEDURE = json_get_value,
     LEFTARG = json, RIGHTARG = text
+);
+
+CREATE OPERATOR = (
+    PROCEDURE = json_equals,
+    LEFTARG = json, RIGHTARG = json,
+    COMMUTATOR = =,
+    NEGATOR = !=
+);
+
+CREATE OPERATOR != (
+    PROCEDURE = json_not_equals,
+    LEFTARG = json, RIGHTARG = json,
+    COMMUTATOR = !=,
+    NEGATOR = =
 );

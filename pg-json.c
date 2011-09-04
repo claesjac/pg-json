@@ -199,3 +199,37 @@ Datum json_get_value(PG_FUNCTION_ARGS)
 
     PG_RETURN_TEXT_P(t);
 }
+
+/* Comparision */
+static int json_compare(Json *ja, Json *jb) {
+    size_t  len;
+    json_t  *a;
+    json_t  *b;
+    json_error_t error;
+
+    len = VARSIZE_ANY_EXHDR(ja);
+    a = json_loadb(VARDATA(ja), len, 0, &error);
+    if (!a) {
+        elog(ERROR, "Failed to parse LH json: %s", error.text);
+        return 0;
+    }
+ 
+    len = VARSIZE_ANY_EXHDR(jb); 
+    b = json_loadb(VARDATA(jb), len, 0, &error);
+    if (!b) {
+        elog(ERROR, "Failed to parse RH json: %s", error.text);
+        return 0;
+    }    
+    
+    return json_equal(a, b);
+}
+
+PG_FUNCTION_INFO_V1(json_equals);
+Datum json_equals(PG_FUNCTION_ARGS) {
+    PG_RETURN_BOOL(json_compare(PG_GETARG_POINTER(0), PG_GETARG_POINTER(1)) == 1);
+}
+
+PG_FUNCTION_INFO_V1(json_not_equals);
+Datum json_not_equals(PG_FUNCTION_ARGS) {
+    PG_RETURN_BOOL(json_compare(PG_GETARG_POINTER(0), PG_GETARG_POINTER(1)) != 1);
+}
