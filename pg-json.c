@@ -63,7 +63,6 @@ PG_FUNCTION_INFO_V1(json_get_value);
 static json_t *get_value_at_path(json_t *obj, const char *path) {
     long ix = 0, offset = 0;
     json_t *rv = NULL;
-    char c = '\0';
     char *key;
     
     /* No more path to extract */
@@ -133,18 +132,18 @@ static json_t *get_value_at_path(json_t *obj, const char *path) {
     return NULL;
 }
 
-static Datum json_t_to_text(json_t *rv) {
+static text *json_t_to_text(json_t *rv) {
     char buffer[32];
     
     switch (json_typeof(rv)) {
         case JSON_OBJECT:
         case JSON_ARRAY:
             /* Stringify back */
-            PG_RETURN_TEXT_P(cstring_to_text("[ object Object ]"));
+            return cstring_to_text("[ object Object ]");
             break;
         
         case JSON_STRING:
-            PG_RETURN_TEXT_P(cstring_to_text(json_string_value(rv)));
+            return cstring_to_text(json_string_value(rv));
             break;
         
         case JSON_INTEGER:
@@ -153,7 +152,7 @@ static Datum json_t_to_text(json_t *rv) {
 #else
             snprintf(buffer, sizeof(buffer), "%ld", json_integer_value(rv));
 #endif
-            PG_RETURN_TEXT_P(cstring_to_text(buffer));
+            return cstring_to_text(buffer);
             break;
             
         case JSON_REAL:
@@ -161,12 +160,14 @@ static Datum json_t_to_text(json_t *rv) {
         
         case JSON_TRUE:
         case JSON_FALSE:
-            PG_RETURN_TEXT_P(cstring_to_text(json_is_true(rv) ? "true" : "false"));
+            return cstring_to_text(json_is_true(rv) ? "true" : "false");
             break;
         
         default:
             elog(INFO, "Unknown JSON type: %d", json_typeof(rv));
     }
+    
+    return NULL;
 }
 
 Datum json_get_value(PG_FUNCTION_ARGS)
@@ -190,7 +191,11 @@ Datum json_get_value(PG_FUNCTION_ARGS)
         PG_RETURN_NULL();
     }
     
-    t = json_t_to_text(rv);
+    t = (text *) json_t_to_text(rv);
     json_decref(rv);
-    return t;
+    if (t == NULL) {
+        PG_RETURN_NULL();
+    }
+
+    PG_RETURN_TEXT_P(t);
 }
