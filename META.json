@@ -15,7 +15,7 @@
    "provides": {
         "pg-json": {
             "file": "pg-json--0.01.sql",
-            "version": "0.01"
+            "version": "0.0.1"
         }
    },
    "meta-spec": {
