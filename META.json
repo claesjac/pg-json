@@ -3,7 +3,7 @@
    "abstract": "A json data type and related functions",
    "description": "This library contains a json datatype and some functionality for working with it",
    "version": "0.0.1",
-   "maintainer": "Claes Jakobsson <claes@surfar.nu>"
+   "maintainer": "Claes Jakobsson <claes@surfar.nu>",
    "license": "mit",
    "resources": {
       "repository": {
