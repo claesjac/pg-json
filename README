@@ -1,18 +1,20 @@
 pg-json - JSON support for PostgreSQL
--------------------------------------
+=====================================
 
 This is a postgres extension which provides a JSON type and rudimentary opertators 
 and functions on them. It uses the Jansson JSON library (http://www.digip.org/jansson/) 
 which you need installed and findable by your linker.
 
-INSTALL
+Building
 --------------
-$ make
-$ make install
-$ psql -f <path to pg-json.sql> <your database>
 
-USAGE
--------------
+$ make USE_PGXS=1
+$ sudo make install USE_PGXS=1
+
+It'll install a pg-json.sql in your postgres which you might have to load for your database also.
+
+Usage
+-----
 This module provides a 'json' datatype. It's more or less just a bytea which assumes that 
 the data is UTF-8 encoded. When created it validates that it's parseable as JSON.
 

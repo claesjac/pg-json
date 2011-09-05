@@ -9,7 +9,12 @@
  *-------------------------------------------------------------------------
  */
 
-#include "pg-json.h"
+#include "postgres.h"
+#include "fmgr.h"
+#include "utils/builtins.h"
+#include <jansson.h>
+
+typedef struct varlena Json;
 
 PG_MODULE_MAGIC;
 
@@ -226,10 +231,10 @@ static int json_compare(Json *ja, Json *jb) {
 
 PG_FUNCTION_INFO_V1(json_equals);
 Datum json_equals(PG_FUNCTION_ARGS) {
-    PG_RETURN_BOOL(json_compare(PG_GETARG_POINTER(0), PG_GETARG_POINTER(1)) == 1);
+    PG_RETURN_BOOL(json_compare((Json *) PG_GETARG_POINTER(0), (Json *) PG_GETARG_POINTER(1)) == 1);
 }
 
 PG_FUNCTION_INFO_V1(json_not_equals);
 Datum json_not_equals(PG_FUNCTION_ARGS) {
-    PG_RETURN_BOOL(json_compare(PG_GETARG_POINTER(0), PG_GETARG_POINTER(1)) != 1);
+    PG_RETURN_BOOL(json_compare((Json *) PG_GETARG_POINTER(0), (Json *) PG_GETARG_POINTER(1)) != 1);
 }

@@ -1,0 +1,19 @@
+{
+   "name": "pg-json",
+   "abstract": "A json data type and related functions",
+   "description": "This library contains a json datatype and some functionality for working with it",
+   "version": "0.0.1",
+   "maintainer": "Claes Jakobsson <claes@surfar.nu>"
+   "license": "mit",
+   "resources": {
+      "repository": {
+        "url":  "git://github.com/claesjac/pg-json.git",
+        "web":  "https://github.com/claesjac/pg-json",
+        "type": "git"
+      }
+   },
+   "meta-spec": {
+      "version": "1.0.0",
+      "url": "http://pgxn.org/meta/spec.txt"
+   }
+}

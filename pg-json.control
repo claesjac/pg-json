@@ -1,0 +1,14 @@
+#####################################################################
+#
+#  JSON functions using the Jansson JSON library
+#
+#  Copyright (c) 2011, Claes Jakobsson, Glue Finance AB
+#
+#  This software is licensed under the MIT license. See LICENSE
+#
+#####################################################################
+
+comment = 'A json data type'
+default_version = '0.0.1'
+module_pathname = '$libdir/pg-json'
+relocatable = true

@@ -1,6 +1,14 @@
--- Adjust this setting to control where the objects get created.
-SET search_path = public;
-
+/*-------------------------------------------------------------------------
+ *
+ * JSON functions using the Jansson JSON library
+ *
+ * Copyright (c) 2011, Claes Jakobsson, Glue Finance AB
+ *
+ * This software is licensed under the MIT license. See LICENSE
+ *
+ *-------------------------------------------------------------------------
+ */
+ 
 CREATE OR REPLACE FUNCTION json_in(cstring)
     RETURNS json
     AS '$libdir/pg-json'
