@@ -12,14 +12,12 @@ SELECT '{"foo":"bar"}'::json ~ 'foo' = 'bar';
 SELECT json_equals('{"foo":"bar"}', '{"foo":"bar"}');
 
 -- = is the operator version of json_equals
-
 SELECT '{"foo":"bar"}'::json = '{"foo":"bar"}'::json;
 SELECT '[1,2,3]'::json = '[1,2,3]'::json;
 SELECT '{"foo": [1,2,3]}'::json = '{"foo": [1,2,3]}'::json;
 SELECT '{"a": "b", "c": "d"}'::json = '{"c": "d", "a": "b"}'::json;
 
-SELECT json_equals('{"foo":"bar"}', '{"foo2":"bar2"}');
+SELECT json_not_equals('{"foo":"bar"}', '{"foo2":"bar2"}');
 
 -- != is the operator version of json_not_equals
-
 SELECT '{"foo": [1,2,3]}'::json != '{"foo": [2,3,4]}'::json;
