@@ -12,6 +12,12 @@
         "type": "git"
       }
    },
+   "provides": {
+        "pg-json": {
+            "file": "pg-json--0.01.sql",
+            "version": "0.01",
+        }
+   },
    "meta-spec": {
       "version": "1.0.0",
       "url": "http://pgxn.org/meta/spec.txt"
