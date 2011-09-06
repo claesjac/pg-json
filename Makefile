@@ -2,7 +2,7 @@ MODULE_big = pg-json
 OBJS = pg-json.o
 
 EXTENSION = pg-json
-DATA = pg-json--0.0.1.sql
+DATA = pg-json--0.0.2.sql
 
 SHLIB_LINK += -ljansson
 

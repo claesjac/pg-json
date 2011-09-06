@@ -2,7 +2,7 @@
    "name": "pg-json",
    "abstract": "A json data type and related functions",
    "description": "This library contains a json datatype and some functionality for working with it",
-   "version": "0.0.1",
+   "version": "0.0.2",
    "maintainer": "Claes Jakobsson <claes@surfar.nu>",
    "license": "mit",
    "resources": {
@@ -14,8 +14,8 @@
    },
    "provides": {
         "pg-json": {
-            "file": "pg-json--0.01.sql",
-            "version": "0.0.1"
+            "file": "pg-json--0.0.2.sql",
+            "version": "0.0.2"
         }
    },
    "meta-spec": {
