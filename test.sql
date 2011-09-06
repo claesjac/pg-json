@@ -21,3 +21,11 @@ SELECT json_not_equals('{"foo":"bar"}', '{"foo2":"bar2"}');
 
 -- != is the operator version of json_not_equals
 SELECT '{"foo": [1,2,3]}'::json != '{"foo": [2,3,4]}'::json;
+
+-- Concatenation
+SELECT json_concat('{"a":"b"}', '{"c":"d"}') = '{"a":"b","c":"d"}';
+SELECT json_concat('[1, 2, 3]','[4, 5, 6]') = '[1, 2, 3, 4, 5, 6]';
+
+SELECT '{"a":"b"}'::json || '{"c":"d"}'::json = '{"a":"b","c":"d"}'::json;
+SELECT '[1, 2, 3]'::json || '[4, 5, 6]'::json = '[1, 2, 3, 4, 5, 6]'::json;
+

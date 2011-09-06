@@ -1,0 +1,7 @@
+Revision history for Postgres extension pg-json
+
+0.0.2  ...
+    - added json_concat(json, json) which concatenates two structures and it's operator equivalent ||
+
+0.0.1  Mon Sep 05
+    - original version

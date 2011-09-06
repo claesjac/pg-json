@@ -238,3 +238,73 @@ PG_FUNCTION_INFO_V1(json_not_equals);
 Datum json_not_equals(PG_FUNCTION_ARGS) {
     PG_RETURN_BOOL(json_compare((Json *) PG_GETARG_POINTER(0), (Json *) PG_GETARG_POINTER(1)) != 1);
 }
+
+/* Concatenation */
+
+PG_FUNCTION_INFO_V1(json_concat);
+Datum json_concat(PG_FUNCTION_ARGS) {
+    Json *d;
+    json_t *a;
+    json_t *b;
+    json_error_t error;
+    char *str;
+    size_t len, i;
+
+    d = (Json *) PG_GETARG_POINTER(0);
+    a = json_loadb(VARDATA(d), VARSIZE_ANY_EXHDR(d), 0, &error);
+    if (!a) {
+        elog(ERROR, "Failed to parse LH json: %s", error.text);
+        PG_RETURN_NULL();
+    }
+
+    d = (Json *) PG_GETARG_POINTER(1);
+    b = json_loadb(VARDATA(d), VARSIZE_ANY_EXHDR(d), 0, &error);
+    if (!b) {
+        elog(ERROR, "Failed to parse RH json: %s", error.text);
+        PG_RETURN_NULL();
+    }
+    
+    if (json_is_object(a)) {
+        if (!json_is_object(b)) {
+            elog(ERROR, "Can't concat a non-object with an object");
+            PG_RETURN_NULL();
+        }
+        
+        void *iter = json_object_iter(b);
+        while (iter != NULL) {
+            json_object_set(a, json_object_iter_key(iter), json_object_iter_value(iter));
+            iter = json_object_iter(iter);
+        }
+    }
+    else if (json_is_array(a)) {
+        if (!json_is_array(b)) {
+            elog(ERROR, "Can't concat a non-array with an array");
+            PG_RETURN_NULL();
+        }
+        
+        len = json_array_size(b);
+        for (i = 0; i < len; i++) {
+            json_array_append(a, json_array_get(b, i));
+        }
+    }
+    else {
+        elog(ERROR, "Invalid combination of types to concat, must be object-object or array-array");
+        PG_RETURN_NULL();
+    }
+    
+    str = json_dumps(a, JSON_COMPACT);
+
+    /* Avoid leaks */
+    json_decref(a);
+    json_decref(b);
+
+    /* Convert back to a json type */
+    len = strlen(str);
+    d = (Json *) palloc(len + VARHDRSZ);
+    SET_VARSIZE(d, len + VARHDRSZ);
+    memcpy(VARDATA(d), str, len);
+
+    free(str);
+    
+    PG_RETURN_POINTER(d);
+}

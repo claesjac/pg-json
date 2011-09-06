@@ -33,7 +33,12 @@ CREATE OR REPLACE FUNCTION json_not_equals(this json, that json)
         RETURNS boolean
         AS '$libdir/pg-json'
         LANGUAGE C IMMUTABLE STRICT;
-    
+
+CREATE OR REPLACE FUNCTION json_concat(this json, that json)
+        RETURNS json
+        AS '$libdir/pg-json'
+        LANGUAGE C IMMUTABLE STRICT;
+        
 CREATE TYPE json (
     INPUT = json_in,
     OUTPUT = json_out
@@ -56,4 +61,9 @@ CREATE OPERATOR != (
     LEFTARG = json, RIGHTARG = json,
     COMMUTATOR = !=,
     NEGATOR = =
+);
+
+CREATE OPERATOR || (
+    PROCEDURE = json_concat,
+    LEFTARG = json, RIGHTARG = json
 );
