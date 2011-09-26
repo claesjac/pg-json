@@ -24,6 +24,11 @@ CREATE OR REPLACE FUNCTION json_get_value(data json, path text)
     AS '$libdir/pg-json'
     LANGUAGE C IMMUTABLE STRICT;
 
+CREATE OR REPLACE FUNCTION json_set_value(data json, path text, value json)
+    RETURNS json
+    AS '$libdir/pg-json'
+    LANGUAGE C IMMUTABLE STRICT;
+
 CREATE OR REPLACE FUNCTION json_equals(this json, that json)
     RETURNS boolean
     AS '$libdir/pg-json'

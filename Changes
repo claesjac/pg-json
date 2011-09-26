@@ -1,6 +1,7 @@
 Revision history for Postgres extension pg-json
 
 0.0.2  ...
+    - added json_set_value(json, text, json) which sets the value of a json value at a given path
     - added json_concat(json, json) which concatenates two structures and it's operator equivalent ||
 
 0.0.1  Mon Sep 05
