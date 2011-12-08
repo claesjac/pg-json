@@ -1,20 +1,26 @@
-MODULE_big = jansson-json
-OBJS = jansson-json.o
+EXTENSION    = jansson-json
+EXTVERSION   = $(shell grep default_version $(EXTENSION).control | \
+               sed -e "s/default_version[[:space:]]*=[[:space:]]*'\([^']*\)'/\1/")
+
+DATA         = $(filter-out $(wildcard sql/*--*.sql),$(wildcard sql/*.sql))
+DOCS         = $(wildcard doc/*.md)
 TESTS        = $(wildcard test/sql/*.sql)
 REGRESS      = $(patsubst test/sql/%.sql,%,$(TESTS))
 REGRESS_OPTS = --inputdir=test
-
-EXTENSION = jansson-json
-DATA = jansson-json--0.0.2.sql
-
+MODULE_big   = $(patsubst %.c,%,$(wildcard src/*.c))
+PG_CONFIG    = pg_config
+PG91         = $(shell $(PG_CONFIG) --version | grep -qE " 8\.| 9\.0" && echo no || echo yes)
 SHLIB_LINK += -ljansson
 
-ifdef USE_PGXS
-PG_CONFIG = pg_config
+ifeq ($(PG91),yes)
+all: sql/$(EXTENSION)--$(EXTVERSION).sql
+
+sql/$(EXTENSION)--$(EXTVERSION).sql: sql/$(EXTENSION).sql
+	cp $< $@
+
+DATA = $(wildcard sql/*--*.sql) sql/$(EXTENSION)--$(EXTVERSION).sql
+EXTRA_CLEAN = sql/$(EXTENSION)--$(EXTVERSION).sql
+endif
+
 PGXS := $(shell $(PG_CONFIG) --pgxs)
 include $(PGXS)
-else
-subdir = contrib/jansson-json
-include $(top_builddir)/src/Makefile.global
-include $(top_srcdir)/contrib/contrib-global.mk
-endif

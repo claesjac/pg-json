@@ -1,18 +1,18 @@
 \set ECHO 0
-psql:jansson-json--0.0.2.sql:15: NOTICE:  type "json" is not yet defined
+psql:sql/jansson-json.sql:15: NOTICE:  type "json" is not yet defined
 DETAIL:  Creating a shell type definition.
-psql:jansson-json--0.0.2.sql:20: NOTICE:  argument type json is only a shell
-psql:jansson-json--0.0.2.sql:25: NOTICE:  argument type json is only a shell
-psql:jansson-json--0.0.2.sql:30: NOTICE:  argument type json is only a shell
-psql:jansson-json--0.0.2.sql:30: NOTICE:  argument type json is only a shell
-psql:jansson-json--0.0.2.sql:30: NOTICE:  return type json is only a shell
-psql:jansson-json--0.0.2.sql:35: NOTICE:  argument type json is only a shell
-psql:jansson-json--0.0.2.sql:35: NOTICE:  argument type json is only a shell
-psql:jansson-json--0.0.2.sql:40: NOTICE:  argument type json is only a shell
-psql:jansson-json--0.0.2.sql:40: NOTICE:  argument type json is only a shell
-psql:jansson-json--0.0.2.sql:45: NOTICE:  argument type json is only a shell
-psql:jansson-json--0.0.2.sql:45: NOTICE:  argument type json is only a shell
-psql:jansson-json--0.0.2.sql:45: NOTICE:  return type json is only a shell
+psql:sql/jansson-json.sql:20: NOTICE:  argument type json is only a shell
+psql:sql/jansson-json.sql:25: NOTICE:  argument type json is only a shell
+psql:sql/jansson-json.sql:30: NOTICE:  argument type json is only a shell
+psql:sql/jansson-json.sql:30: NOTICE:  argument type json is only a shell
+psql:sql/jansson-json.sql:30: NOTICE:  return type json is only a shell
+psql:sql/jansson-json.sql:35: NOTICE:  argument type json is only a shell
+psql:sql/jansson-json.sql:35: NOTICE:  argument type json is only a shell
+psql:sql/jansson-json.sql:40: NOTICE:  argument type json is only a shell
+psql:sql/jansson-json.sql:40: NOTICE:  argument type json is only a shell
+psql:sql/jansson-json.sql:45: NOTICE:  argument type json is only a shell
+psql:sql/jansson-json.sql:45: NOTICE:  argument type json is only a shell
+psql:sql/jansson-json.sql:45: NOTICE:  return type json is only a shell
  ?column? 
 ----------
  t

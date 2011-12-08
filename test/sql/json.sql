@@ -1,7 +1,7 @@
 \set ECHO 0
 BEGIN;
 
-\i jansson-json--0.0.2.sql
+\i sql/jansson-json.sql
 
 -- Selection by path
 SELECT json_get_value('["foo", "bar"]', '[0]') = 'foo';
