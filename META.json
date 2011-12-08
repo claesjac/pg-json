@@ -14,7 +14,7 @@
    },
    "provides": {
         "jansson-json": {
-            "file": "jansson-json--0.0.2.sql",
+            "file": "sql/jansson-json.sql",
             "version": "0.0.2"
         }
    },
