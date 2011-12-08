@@ -1,4 +1,4 @@
-pg-json - JSON support for PostgreSQL
+jansson-json - JSON support for PostgreSQL
 =====================================
 
 This is a postgres extension which provides a JSON type and rudimentary opertators 
@@ -11,7 +11,7 @@ Building
 $ make USE_PGXS=1
 $ sudo make install USE_PGXS=1
 
-It'll install a pg-json.sql in your postgres which you might have to load for your database also.
+It'll install a jansson-json.sql in your postgres which you might have to load for your database also.
 
 Usage
 -----

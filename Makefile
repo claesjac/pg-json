@@ -1,8 +1,8 @@
-MODULE_big = pg-json
-OBJS = pg-json.o
+MODULE_big = jansson-json
+OBJS = jansson-json.o
 
-EXTENSION = pg-json
-DATA = pg-json--0.0.2.sql
+EXTENSION = jansson-json
+DATA = jansson-json--0.0.2.sql
 
 SHLIB_LINK += -ljansson
 
@@ -11,7 +11,7 @@ PG_CONFIG = pg_config
 PGXS := $(shell $(PG_CONFIG) --pgxs)
 include $(PGXS)
 else
-subdir = contrib/pg-json
+subdir = contrib/jansson-json
 include $(top_builddir)/src/Makefile.global
 include $(top_srcdir)/contrib/contrib-global.mk
 endif

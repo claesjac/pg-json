@@ -1,5 +1,5 @@
 {
-   "name": "pg-json",
+   "name": "jansson-json",
    "abstract": "A json data type and related functions",
    "description": "This library contains a json datatype and some functionality for working with it",
    "version": "0.0.2",
@@ -7,14 +7,14 @@
    "license": "mit",
    "resources": {
       "repository": {
-        "url":  "git://github.com/claesjac/pg-json.git",
-        "web":  "https://github.com/claesjac/pg-json",
+        "url":  "git://github.com/claesjac/jansson-json.git",
+        "web":  "https://github.com/claesjac/jansson-json",
         "type": "git"
       }
    },
    "provides": {
-        "pg-json": {
-            "file": "pg-json--0.0.2.sql",
+        "jansson-json": {
+            "file": "jansson-json--0.0.2.sql",
             "version": "0.0.2"
         }
    },

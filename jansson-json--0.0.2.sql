@@ -11,37 +11,37 @@
  
 CREATE OR REPLACE FUNCTION json_in(cstring)
     RETURNS json
-    AS '$libdir/pg-json'
+    AS '$libdir/jansson-json'
     LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION json_out(json)
     RETURNS cstring
-    AS '$libdir/pg-json'
+    AS '$libdir/jansson-json'
     LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION json_get_value(data json, path text)
     RETURNS text
-    AS '$libdir/pg-json'
+    AS '$libdir/jansson-json'
     LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION json_set_value(data json, path text, value json)
     RETURNS json
-    AS '$libdir/pg-json'
+    AS '$libdir/jansson-json'
     LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION json_equals(this json, that json)
     RETURNS boolean
-    AS '$libdir/pg-json'
+    AS '$libdir/jansson-json'
     LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION json_not_equals(this json, that json)
         RETURNS boolean
-        AS '$libdir/pg-json'
+        AS '$libdir/jansson-json'
         LANGUAGE C IMMUTABLE STRICT;
 
 CREATE OR REPLACE FUNCTION json_concat(this json, that json)
         RETURNS json
-        AS '$libdir/pg-json'
+        AS '$libdir/jansson-json'
         LANGUAGE C IMMUTABLE STRICT;
         
 CREATE TYPE json (
