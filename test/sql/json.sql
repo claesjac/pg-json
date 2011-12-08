@@ -1,3 +1,8 @@
+\set ECHO 0
+BEGIN;
+
+\i jansson-json--0.0.2.sql
+
 -- Selection by path
 SELECT json_get_value('["foo", "bar"]', '[0]') = 'foo';
 SELECT json_get_value('["foo", 2]', '[1]')::int = 2;
@@ -34,3 +39,5 @@ SELECT '[1, 2, 3]'::json || '[4, 5, 6]'::json = '[1, 2, 3, 4, 5, 6]'::json;
 SELECT json_equals(json_set_value('{"foo":"bar"}', 'foo', '{"baz":"quax"}'), '{"foo":{"baz":"quax"}}');
 SELECT json_equals(json_set_value('[1,2,3]', '[1]', '[1,2]'), '[1,[1,2],3]');
 SELECT json_equals(json_set_value('{"foo":[1,{"quax":1}]}', 'foo[1].quax', '[1,2]'), '{"foo":[1,{"quax":[1,2]}]}');
+
+ROLLBACK;

@@ -1,5 +1,8 @@
 MODULE_big = jansson-json
 OBJS = jansson-json.o
+TESTS        = $(wildcard test/sql/*.sql)
+REGRESS      = $(patsubst test/sql/%.sql,%,$(TESTS))
+REGRESS_OPTS = --inputdir=test
 
 EXTENSION = jansson-json
 DATA = jansson-json--0.0.2.sql

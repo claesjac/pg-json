@@ -1,0 +1,198 @@
+-- Selection by path
+SELECT json_get_value('["foo", "bar"]', '[0]') = 'foo';
+ERROR:  function json_get_value(unknown, unknown) does not exist
+LINE 1: SELECT json_get_value('["foo", "bar"]', '[0]') = 'foo';
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_get_value('["foo", 2]', '[1]')::int = 2;
+ERROR:  function json_get_value(unknown, unknown) does not exist
+LINE 1: SELECT json_get_value('["foo", 2]', '[1]')::int = 2;
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_get_value('{"foo": "bar", "quax": "zorg"}','quax') = 'zorg';
+ERROR:  function json_get_value(unknown, unknown) does not exist
+LINE 1: SELECT json_get_value('{"foo": "bar", "quax": "zorg"}','quax...
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_get_value('{"foo": { "quax": "zorg" } }','foo.quax') = 'zorg';
+ERROR:  function json_get_value(unknown, unknown) does not exist
+LINE 1: SELECT json_get_value('{"foo": { "quax": "zorg" } }','foo.qu...
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_get_value('{"foo": [{ "quax": "zorg" }] }','foo[0].quax') = 'zorg';
+ERROR:  function json_get_value(unknown, unknown) does not exist
+LINE 1: SELECT json_get_value('{"foo": [{ "quax": "zorg" }] }','foo[...
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+-- ~ is the  operator version of json_get_value
+SELECT '{"foo":"bar"}'::json ~ 'foo' = 'bar';
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"foo":"bar"}'::json ~ 'foo' = 'bar';
+                                ^
+-- Equality
+SELECT json_equals('{"foo":"bar"}', '{"foo":"bar"}');
+ERROR:  function json_equals(unknown, unknown) does not exist
+LINE 1: SELECT json_equals('{"foo":"bar"}', '{"foo":"bar"}');
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+-- = is the operator version of json_equals
+SELECT '{"foo":"bar"}'::json = '{"foo":"bar"}'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"foo":"bar"}'::json = '{"foo":"bar"}'::json;
+                                ^
+SELECT '[1,2,3]'::json = '[1,2,3]'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '[1,2,3]'::json = '[1,2,3]'::json;
+                          ^
+SELECT '{"foo": [1,2,3]}'::json = '{"foo": [1,2,3]}'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"foo": [1,2,3]}'::json = '{"foo": [1,2,3]}'::json;
+                                   ^
+SELECT '{"a": "b", "c": "d"}'::json = '{"c": "d", "a": "b"}'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"a": "b", "c": "d"}'::json = '{"c": "d", "a": "b"}'...
+                                       ^
+SELECT json_not_equals('{"foo":"bar"}', '{"foo2":"bar2"}');
+ERROR:  function json_not_equals(unknown, unknown) does not exist
+LINE 1: SELECT json_not_equals('{"foo":"bar"}', '{"foo2":"bar2"}');
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+-- != is the operator version of json_not_equals
+SELECT '{"foo": [1,2,3]}'::json != '{"foo": [2,3,4]}'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"foo": [1,2,3]}'::json != '{"foo": [2,3,4]}'::json;
+                                   ^
+-- Concatenation
+SELECT json_concat('{"a":"b"}', '{"c":"d"}') = '{"a":"b","c":"d"}';
+ERROR:  function json_concat(unknown, unknown) does not exist
+LINE 1: SELECT json_concat('{"a":"b"}', '{"c":"d"}') = '{"a":"b","c"...
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_concat('[1, 2, 3]','[4, 5, 6]') = '[1, 2, 3, 4, 5, 6]';
+ERROR:  function json_concat(unknown, unknown) does not exist
+LINE 1: SELECT json_concat('[1, 2, 3]','[4, 5, 6]') = '[1, 2, 3, 4, ...
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT '{"a":"b"}'::json || '{"c":"d"}'::json = '{"a":"b","c":"d"}'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"a":"b"}'::json || '{"c":"d"}'::json = '{"a":"b","c...
+                            ^
+SELECT '[1, 2, 3]'::json || '[4, 5, 6]'::json = '[1, 2, 3, 4, 5, 6]'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '[1, 2, 3]'::json || '[4, 5, 6]'::json = '[1, 2, 3, 4...
+                            ^
+-- Setting by path
+SELECT json_equals(json_set_value('{"foo":"bar"}', 'foo', '{"baz":"quax"}'), '{"foo":{"baz":"quax"}}');
+ERROR:  function json_set_value(unknown, unknown, unknown) does not exist
+LINE 1: SELECT json_equals(json_set_value('{"foo":"bar"}', 'foo', '{...
+                           ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_equals(json_set_value('[1,2,3]', '[1]', '[1,2]'), '[1,[1,2],3]');
+ERROR:  function json_set_value(unknown, unknown, unknown) does not exist
+LINE 1: SELECT json_equals(json_set_value('[1,2,3]', '[1]', '[1,2]')...
+                           ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_equals(json_set_value('{"foo":[1,{"quax":1}]}', 'foo[1].quax', '[1,2]'), '{"foo":[1,{"quax":[1,2]}]}');
+ERROR:  function json_set_value(unknown, unknown, unknown) does not exist
+LINE 1: SELECT json_equals(json_set_value('{"foo":[1,{"quax":1}]}', ...
+                           ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+-- Selection by path
+SELECT json_get_value('["foo", "bar"]', '[0]') = 'foo';
+ERROR:  function json_get_value(unknown, unknown) does not exist
+LINE 1: SELECT json_get_value('["foo", "bar"]', '[0]') = 'foo';
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_get_value('["foo", 2]', '[1]')::int = 2;
+ERROR:  function json_get_value(unknown, unknown) does not exist
+LINE 1: SELECT json_get_value('["foo", 2]', '[1]')::int = 2;
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_get_value('{"foo": "bar", "quax": "zorg"}','quax') = 'zorg';
+ERROR:  function json_get_value(unknown, unknown) does not exist
+LINE 1: SELECT json_get_value('{"foo": "bar", "quax": "zorg"}','quax...
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_get_value('{"foo": { "quax": "zorg" } }','foo.quax') = 'zorg';
+ERROR:  function json_get_value(unknown, unknown) does not exist
+LINE 1: SELECT json_get_value('{"foo": { "quax": "zorg" } }','foo.qu...
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_get_value('{"foo": [{ "quax": "zorg" }] }','foo[0].quax') = 'zorg';
+ERROR:  function json_get_value(unknown, unknown) does not exist
+LINE 1: SELECT json_get_value('{"foo": [{ "quax": "zorg" }] }','foo[...
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+-- ~ is the  operator version of json_get_value
+SELECT '{"foo":"bar"}'::json ~ 'foo' = 'bar';
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"foo":"bar"}'::json ~ 'foo' = 'bar';
+                                ^
+-- Equality
+SELECT json_equals('{"foo":"bar"}', '{"foo":"bar"}');
+ERROR:  function json_equals(unknown, unknown) does not exist
+LINE 1: SELECT json_equals('{"foo":"bar"}', '{"foo":"bar"}');
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+-- = is the operator version of json_equals
+SELECT '{"foo":"bar"}'::json = '{"foo":"bar"}'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"foo":"bar"}'::json = '{"foo":"bar"}'::json;
+                                ^
+SELECT '[1,2,3]'::json = '[1,2,3]'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '[1,2,3]'::json = '[1,2,3]'::json;
+                          ^
+SELECT '{"foo": [1,2,3]}'::json = '{"foo": [1,2,3]}'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"foo": [1,2,3]}'::json = '{"foo": [1,2,3]}'::json;
+                                   ^
+SELECT '{"a": "b", "c": "d"}'::json = '{"c": "d", "a": "b"}'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"a": "b", "c": "d"}'::json = '{"c": "d", "a": "b"}'...
+                                       ^
+SELECT json_not_equals('{"foo":"bar"}', '{"foo2":"bar2"}');
+ERROR:  function json_not_equals(unknown, unknown) does not exist
+LINE 1: SELECT json_not_equals('{"foo":"bar"}', '{"foo2":"bar2"}');
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+-- != is the operator version of json_not_equals
+SELECT '{"foo": [1,2,3]}'::json != '{"foo": [2,3,4]}'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"foo": [1,2,3]}'::json != '{"foo": [2,3,4]}'::json;
+                                   ^
+-- Concatenation
+SELECT json_concat('{"a":"b"}', '{"c":"d"}') = '{"a":"b","c":"d"}';
+ERROR:  function json_concat(unknown, unknown) does not exist
+LINE 1: SELECT json_concat('{"a":"b"}', '{"c":"d"}') = '{"a":"b","c"...
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_concat('[1, 2, 3]','[4, 5, 6]') = '[1, 2, 3, 4, 5, 6]';
+ERROR:  function json_concat(unknown, unknown) does not exist
+LINE 1: SELECT json_concat('[1, 2, 3]','[4, 5, 6]') = '[1, 2, 3, 4, ...
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT '{"a":"b"}'::json || '{"c":"d"}'::json = '{"a":"b","c":"d"}'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '{"a":"b"}'::json || '{"c":"d"}'::json = '{"a":"b","c...
+                            ^
+SELECT '[1, 2, 3]'::json || '[4, 5, 6]'::json = '[1, 2, 3, 4, 5, 6]'::json;
+ERROR:  type "json" does not exist
+LINE 1: SELECT '[1, 2, 3]'::json || '[4, 5, 6]'::json = '[1, 2, 3, 4...
+                            ^
+-- Setting by path
+SELECT json_equals(json_set_value('{"foo":"bar"}', 'foo', '{"baz":"quax"}'), '{"foo":{"baz":"quax"}}');
+ERROR:  function json_set_value(unknown, unknown, unknown) does not exist
+LINE 1: SELECT json_equals(json_set_value('{"foo":"bar"}', 'foo', '{...
+                           ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_equals(json_set_value('[1,2,3]', '[1]', '[1,2]'), '[1,[1,2],3]');
+ERROR:  function json_set_value(unknown, unknown, unknown) does not exist
+LINE 1: SELECT json_equals(json_set_value('[1,2,3]', '[1]', '[1,2]')...
+                           ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+SELECT json_equals(json_set_value('{"foo":[1,{"quax":1}]}', 'foo[1].quax', '[1,2]'), '{"foo":[1,{"quax":[1,2]}]}');
+ERROR:  function json_set_value(unknown, unknown, unknown) does not exist
+LINE 1: SELECT json_equals(json_set_value('{"foo":[1,{"quax":1}]}', ...
+                           ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
