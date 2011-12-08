@@ -9,6 +9,8 @@
  *-------------------------------------------------------------------------
  */
  
+SET client_min_messages = warning;
+
 CREATE OR REPLACE FUNCTION json_in(cstring)
     RETURNS json
     AS '$libdir/jansson-json'
