@@ -4,6 +4,10 @@ Revision history for Postgres extension jansson-json
     - added json_set_value(json, text, json) which sets the value of a json value at a given path
     - added json_concat(json, json) which concatenates two structures and it's operator equivalent ||
     - Renamed the extension to "jasson-json".
+    - Added documentation file in addition to the README.
+    - Added support for `make installcheck`.
+    - Reorganized the code so things are in directories as suggested for PGXN.
+    - Added support for versions of PostgreSQL lower than 9.1.
 
 0.0.1  Mon Sep 05
     - original version
