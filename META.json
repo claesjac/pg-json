@@ -14,8 +14,10 @@
    },
    "provides": {
         "jansson-json": {
+            "abstract": "A JSON data type using the Jansson JSON library",
             "file": "sql/jansson-json.sql",
-            "version": "0.0.2"
+            "version": "0.0.2",
+            "docfile": "doc/jansson-json.mmd"
         }
    },
    "meta-spec": {
