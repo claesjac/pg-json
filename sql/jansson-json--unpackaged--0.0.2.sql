@@ -1,0 +1,12 @@
+ALTER EXTENSION "jansson-json" ADD TYPE json;
+ALTER EXTENSION "jansson-json" ADD FUNCTION json_in(cstring);
+ALTER EXTENSION "jansson-json" ADD function json_out(json);
+ALTER EXTENSION "jansson-json" ADD FUNCTION json_get_value(json, text);
+ALTER EXTENSION "jansson-json" ADD FUNCTION json_set_value(json, text, json);
+ALTER EXTENSION "jansson-json" ADD FUNCTION json_equals(json, json);
+ALTER EXTENSION "jansson-json" ADD FUNCTION json_not_equals(json, json);
+ALTER EXTENSION "jansson-json" ADD FUNCTION json_concat(json, json);
+ALTER EXTENSION "jansson-json" ADD OPERATOR =(json, json);
+ALTER EXTENSION "jansson-json" ADD OPERATOR !=(json, json);
+ALTER EXTENSION "jansson-json" ADD OPERATOR ~(json, text);
+ALTER EXTENSION "jansson-json" ADD OPERATOR ||(json, json);

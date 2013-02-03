@@ -1,0 +1,117 @@
+jansson-json 0.0.2
+==================
+
+Synopsis
+--------
+
+    CREATE EXTENSION "jansson-json";
+
+    david=# SELECT '{"foo":"bar"}'::json;
+         json      
+    ---------------
+     {"foo":"bar"}
+
+    SELECT '{"foo":"bar"}'::json ~ 'foo' = 'bar';
+     ?column? 
+    ----------
+     t
+
+Description
+-----------
+
+This is a postgres extension which provides a JSON type and rudimentary
+opertators and functions on them. It uses the
+[Jansson JSON library](http://www.digip.org/jansson/) which you need installed
+and findable by your linker. The JSON type is more or less just a bytea which
+assumes that the data is UTF-8 encoded. When created it validates that it's
+parseable as JSON.
+
+Interface
+---------
+
+### Operators ###
+
+ Operator | Description                      | Example                                        | Result
+----------|----------------------------------|------------------------------------------------|--------
+ `=`      | Are JSON objects equivalent      | '{"f":1,"b":2}'::json = '{"b":2,"f":1}'::json  | `t`
+ `!=`     | Are JSON objects not equivalent  | '{"f":1,"b":2}'::json = '{"b":2,"f":1}'::json  | `f`
+ `~`      | Get JSON value at path           | '{"foo":[1,2,3, [3,4,5]]}'::json ~ 'foo[3][2]' | `5`
+
+### Functions ###
+
+* `json_get_value(data json, path text) : text`
+
+  In the json value "data" returns the element for a given "path". The "path"
+  is a combination of keys (separated by `.`) and array indices (specified in
+  `[]`). For example in the structure `{"foo": {"bar": "quax"}}` the path to
+  the value "quax" would be "foo.bar".
+
+  More examples
+
+        'foo[3][2]' from '{"foo":[1,2,3, [3,4,5]]}' returns '5'
+        'foo.bar[2].orz' from '{"foo": {"bar": [{}, {}, {"orz", "herp"}]}}' returns 'herp'
+  
+* `json_equals(this json, that json) : boolean`
+
+  Checks if the value "this" is equal to "that". This definition of equality
+  (stolen from Jansson documentation) sums it up
+
+    > Two JSON values can be equal not only if they are exactly the same
+    > value, but also if they have equal "contents":
+    > 
+    > - Two integer or real values are equal if their contained numeric
+    > values are equal. An integer value is never equal to a real value,
+    > though.
+    > - Two strings are equal if their contained UTF-8 strings are equal,
+    > byte by byte. Unicode comparison algorithms are not implemented.
+    > - Two arrays are equal if they have the same number of elements and
+    > each element in the first array is equal to the corresponding
+    > element in the second array.
+    > - Two objects are equal if they have exactly the same keys and the
+    > value for each key in the first object is equal to the value of
+    > the corresponding key in the second object.
+    > - Two true, false or null values have no “contents”, so they are
+    > equal if their types are equal.
+
+* `json_not_equals(this json, that json) : boolean`
+
+  The inverse of `json_equals()`.
+
+Support
+-------
+
+This library is stored in an open
+[GitHub repository](https://github.com/claesjac/pg-json). Feel free to fork
+and contribute! Please file bug reports via
+[GitHub Issues](https://github.com/claesjac/pg-json/issues/).
+
+Author
+------
+
+[Claes Jakobsson](http://www.surfar.nu/)
+
+Copyright and License
+---------------------
+
+This module is free software; you can redistribute it and/or modify it under
+the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+
+Copyright (c) 2011 Claes Jakobsson.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

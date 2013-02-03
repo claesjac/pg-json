@@ -1,3 +1,7 @@
+\set ECHO 0
+\i sql/jansson-json.sql
+\set ECHO all
+
 -- Selection by path
 SELECT json_get_value('["foo", "bar"]', '[0]') = 'foo';
 SELECT json_get_value('["foo", 2]', '[1]')::int = 2;
