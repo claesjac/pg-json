@@ -10,5 +10,5 @@
 
 comment = 'A json data type'
 default_version = '0.0.2'
-module_pathname = '$libdir/pg-json'
+module_pathname = '$libdir/jansson-json'
 relocatable = true

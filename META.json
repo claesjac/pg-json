@@ -1,11 +1,14 @@
 {
-   "name": "pg-json",
+   "name": "jansson-json",
    "abstract": "A json data type and related functions",
    "description": "This library contains a json datatype and some functionality for working with it",
    "version": "0.0.2",
    "maintainer": "Claes Jakobsson <claes@surfar.nu>",
    "license": "mit",
    "resources": {
+      "bugtracker": {
+         "web": "http://github.com/claesjac/pg-json/issues/"
+      },
       "repository": {
         "url":  "git://github.com/claesjac/pg-json.git",
         "web":  "https://github.com/claesjac/pg-json",
@@ -13,11 +16,25 @@
       }
    },
    "provides": {
-        "pg-json": {
-            "file": "pg-json--0.0.2.sql",
-            "version": "0.0.2"
+        "jansson-json": {
+            "abstract": "A JSON data type using the Jansson JSON library",
+            "file": "sql/jansson-json.sql",
+            "version": "0.0.2",
+            "docfile": "doc/jansson-json.mmd"
         }
    },
+   "prereqs": {
+       "runtime": {
+           "requires": {
+               "PostgreSQL": "8.4.0"
+           }
+        }
+   },
+   "tags": [
+      "json",
+      "jansson",
+      "data type"
+   ],
    "meta-spec": {
       "version": "1.0.0",
       "url": "http://pgxn.org/meta/spec.txt"
